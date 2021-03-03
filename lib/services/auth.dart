@@ -33,7 +33,7 @@ class AuthService {
       User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: password)) as User;
 
-      _userFromFirebaseUser(user);
+ 
     } on FirebaseAuthException catch (e) {
       print(e);
     } catch (e) {

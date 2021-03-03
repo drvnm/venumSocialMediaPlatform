@@ -5,15 +5,20 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("home"),
-        actions: [
-          TextButton(
-            onPressed: AuthService().signOut,
-            child: Icon(Icons.person),
-          ),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text("home"),
+          actions: [
+            TextButton(
+              onPressed: AuthService().signOut,
+              child: Icon(Icons.person),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/add');
+          },
+          child: Icon(Icons.add_sharp),
+        ));
   }
 }

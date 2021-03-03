@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/models/user.dart';
 import 'package:social_app/screens/authentication/signup.dart';
+import 'package:social_app/screens/main/posts/add.dart';
 
 import 'main/home.dart';
 
@@ -12,6 +13,14 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return RegisterPage();
     }
-    return Home();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => Home(),
+        '/add' : (context) => Add(),
+      }
+    );
+
   }
 }
