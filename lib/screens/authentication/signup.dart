@@ -8,7 +8,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  Color bg = Color(0xff313131);
+  Color bg = Color(0xff181818);
   final AuthService _authService = AuthService();
   String email = '';
   String password = '';

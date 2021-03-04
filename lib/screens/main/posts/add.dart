@@ -23,8 +23,10 @@ class _AddState extends State<Add> {
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
                 onPressed: () async {
-                  _postService.savePost(text);
-                  Navigator.pop(context);
+                  if (text != '') {
+                    _postService.savePost(text);
+                    Navigator.pop(context);
+                  }
                 },
                 child: Text("Post", style: TextStyle(color: Colors.white)),
               ),

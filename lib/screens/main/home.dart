@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: AuthService().signOut,
-              child: Icon(Icons.person),
+              child: Icon(Icons.person, color: Colors.white),
             ),
           ],
         ),
@@ -19,6 +19,11 @@ class Home extends StatelessWidget {
             Navigator.pushNamed(context, '/add');
           },
           child: Icon(Icons.add_sharp),
+        ),
+        drawer: Drawer(
+          child: ListView(children: [
+            
+          ],),
         ));
   }
 }
