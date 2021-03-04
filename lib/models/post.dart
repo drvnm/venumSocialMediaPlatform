@@ -6,5 +6,6 @@ class PostModel {
   final String text;
   final Timestamp timestamp;
   
+  
   PostModel({this.id, this.creator, this.text, this.timestamp});
 }

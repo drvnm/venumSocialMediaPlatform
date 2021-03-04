@@ -59,27 +59,29 @@ class _RegisterPageState extends State<RegisterPage> {
                     }),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 39.0),
-                  child: TextFormField(
-                    obscureText: true,
-                    
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.remove_red_eye_sharp, color: Colors.white),
-                      labelText: "PASSWORD",
-                      labelStyle: GoogleFonts.varelaRound(
-                        height: -20,
-                        textStyle: TextStyle(
-                          letterSpacing: 2,
-                          fontSize: 15,
-                          color: Colors.grey,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 39.0),
+                    child: TextFormField(
+                      obscureText: true,
+                      
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.remove_red_eye_sharp, color: Colors.white),
+                        labelText: "PASSWORD",
+                        labelStyle: GoogleFonts.varelaRound(
+                          height: -20,
+                          textStyle: TextStyle(
+                            letterSpacing: 2,
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
+                      onChanged: (val) => setState(() {
+                        password = val;
+                      }),
                     ),
-                    onChanged: (val) => setState(() {
-                      password = val;
-                    }),
                   ),
                 ),
                 Padding(
