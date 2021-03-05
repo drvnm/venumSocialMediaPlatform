@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'main/home.dart';
 import 'main/profile/profile.dart';
-
-// import 'package:social_app/models/user.dart';
-// import 'package:social_app/screens/authentication/signup.dart';
-// import 'package:social_app/screens/main/posts/add.dart';
-
+import 'package:social_app/screens/main/search/search.dart';
 
 class PageCon extends StatefulWidget {
   @override
@@ -13,7 +10,7 @@ class PageCon extends StatefulWidget {
 }
 
 class _PageControllerState extends State<PageCon> {
-  Color background = Color(0xff181818);
+  Color background = Color(0xff252525);
   int _currentIndex = 0;
   var pages = [Home(), Home(), Home(), Profile()];
 
@@ -25,6 +22,8 @@ class _PageControllerState extends State<PageCon> {
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
+        unselectedLabelStyle: GoogleFonts.montserrat(),
+        selectedLabelStyle: GoogleFonts.montserrat(),
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -34,7 +33,6 @@ class _PageControllerState extends State<PageCon> {
         items: <BottomNavigationBarItem>[
           item("Home", Icons.home_sharp),
           item("Search", Icons.search_sharp),
-          
           item("Inbox", Icons.message_sharp),
           item("Profile", Icons.person_sharp),
         ],

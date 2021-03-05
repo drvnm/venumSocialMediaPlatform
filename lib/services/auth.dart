@@ -26,8 +26,9 @@ class AuthService {
         {
           'username': email,
           'email': email,
-          'bio': '',
+          'bio': 'No bio yet',
           'isVerified': false,
+          'posts': 0,
         },
       );
     } on FirebaseAuthException catch (e) {

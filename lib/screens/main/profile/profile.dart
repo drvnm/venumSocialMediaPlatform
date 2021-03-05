@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/models/user.dart';
 import 'package:social_app/screens/main/posts/list.dart';
@@ -17,8 +18,9 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff181818);
-    Color fg = Color(0xff222222);
+    Color bg = Color(0xff121212);
+    Color fg = Color(0xff121212);
+    Color tg = Color(0xff595959);
 
     return MultiProvider(
       providers: [
@@ -42,64 +44,138 @@ class _ProfileState extends State<Profile> {
                             Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.vertical(
-                                      bottom: Radius.circular(30)),
+                                      bottom: Radius.circular(0)),
                                   color: bg,
                                 ),
                                 width: double.infinity,
-                                height: 350,
+                                height: 406,
                                 child: Column(
-                                  
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 30.0),
+                                      padding: const EdgeInsets.only(top: 60.0),
                                       child: ClipOval(
                                         child: Image.network(
                                           Provider.of<UserModel>(context)
                                                   .profileImgUrl ??
                                               '',
-                                          height: 100,
-                                          width: 100,
+                                          height: 90,
+                                          width: 90,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top: 25.0),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center, //Center Row contents horizontally,
 
                                         children: [
-                                          Text(Provider.of<UserModel>(context).name, style: TextStyle(color: Colors.white, fontSize: 20)),
-                                          
-                                          Provider.of<UserModel>(context).isVerified ? Icon(Icons.verified, color: Colors.blue) : Text(''),
-                                          
+                                          Text(
+                                            Provider.of<UserModel>(context)
+                                                .name,
+                                            style: GoogleFonts.montserrat(
+                                              textStyle: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Provider.of<UserModel>(context)
+                                                  .isVerified
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10.0),
+                                                  child: Icon(Icons.verified,
+                                                      color: Colors.blue),
+                                                )
+                                              : Text(''),
                                         ],
-                                        
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top: 20.0),
                                       child: Row(
-                                        
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround, 
-
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Column(children: [Text("Followers", style: TextStyle(color: Colors.white, fontSize: 20)), Text("0",style: TextStyle(color: Colors.white, fontSize: 20))],),
-                                          Column(children: [Text("Following", style: TextStyle(color: Colors.white, fontSize: 20)), Text("0",style: TextStyle(color: Colors.white, fontSize: 20)),],)
-                                          
+                                          Column(
+                                            children: [
+                                              Text("0",
+                                                  style: GoogleFonts.montserrat(
+                                                    textStyle: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                              Text(
+                                                "Followers",
+                                                style: GoogleFonts.montserrat(
+                                                  textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: tg,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(Provider.of<UserModel>(context).postAmount.toString() ?? 0,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20)),
+                                              Text("Posts",
+                                                  style: TextStyle(
+                                                      color: Color(0xff5C5C5C),
+                                                      fontSize: 15)),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text("0",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20)),
+                                              Text("Following",
+                                                  style: TextStyle(
+                                                      color: Color(0xff5C5C5C),
+                                                      fontSize: 15)),
+                                            ],
+                                          ),
                                         ],
-                                        
                                       ),
                                     ),
-                                    TextButton(
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: 23),
+                                      width: MediaQuery.of(context).size.width * 0.80,
+                                      child: OutlinedButton(
+                                          style: ButtonStyle(backgroundColor:
+                                              MaterialStateProperty.resolveWith<
+                                                  Color>((states) {
+                                           return Color(0xffFE3B5B);
+                                          })),
                                           onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/edit');
+                                            Navigator.pushNamed(context, '/edit');
                                           },
-                                          child: Text("Edit profile")),
+                                          child: Text("Edit Profile",
+                                              style: TextStyle(
+                                                  color: Colors.white))),
+                                    ),
                                     Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: Text(Provider.of<UserModel>(context).bio, textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 12)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40.0),
+                                      child: Text(
+                                          Provider.of<UserModel>(context).bio,
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.montserrat(
+                                              color: Colors.white,
+                                              fontSize: 15)),
                                     ),
                                   ],
                                 ))

@@ -18,6 +18,7 @@ class UserService {
             isVerified: snapshot.data()['isVerified'],
             name: snapshot.data()['name'],
             profileImgUrl: snapshot.data()['profile'],
+            postAmount: snapshot.data()['posts'],
           )
         : null;
   }
@@ -28,6 +29,10 @@ class UserService {
         .doc(uid)
         .snapshots()
         .map(_userFromFirebaseSnapshot);
+  }
+
+  Future<void> getPostAmount(uid) async {
+   
   }
 
   Future<void> updateProfile(

@@ -16,20 +16,16 @@ class PostService {
     }).toList();
   }
 
-  Future savePost(String text) async {
+  Future savePost(String text, uid) async {
     await FirebaseFirestore.instance.collection("posts").add({
       'text': text,
       'creator': FirebaseAuth.instance.currentUser.uid,
       'timestamp': FieldValue.serverTimestamp(),
     });
+    await FirebaseFirestore.instance.collection("users").doc(uid).update({'posts' : FieldValue.increment(1)});
   }
 
   Stream<List<PostModel>> getPostsByUser(uid) {
-    // print(FirebaseFirestore.instance
-    //     .collection('posts')
-    //     .where('creator', isEqualTo: uid)
-    //     .snapshots()
-    //     .map(_postListFromSnapshot));
     return FirebaseFirestore.instance
         .collection('posts')
         .where('creator', isEqualTo: uid)

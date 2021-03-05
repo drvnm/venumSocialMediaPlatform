@@ -27,14 +27,14 @@ class _EditState extends State<Edit> {
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff181818);
+    Color bg = Color(0xff121212);
     Color fg = Color(0xff222222);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: bg,
         centerTitle: true,
         title: Text("Edit Profile",
-            style: GoogleFonts.varelaRound(
+            style: GoogleFonts.montserrat(
                 textStyle: TextStyle(color: Colors.white))),
         actions: [
           TextButton(
@@ -43,7 +43,7 @@ class _EditState extends State<Edit> {
                 Navigator.pop(context);
               },
               child: Text("SAVE",
-                  style: GoogleFonts.varelaRound(
+                  style: GoogleFonts.montserrat(
                       textStyle: TextStyle(color: Colors.white, fontSize: 15))))
         ],
       ),
@@ -103,7 +103,7 @@ class _EditState extends State<Edit> {
                       ),
                     ),
                     TextFormField(
-                      maxLength: 180,
+                      maxLength: 90,
                        maxLines: null,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(

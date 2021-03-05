@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/services/posts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +25,7 @@ class _AddState extends State<Add> {
               child: TextButton(
                 onPressed: () async {
                   if (text != '') {
-                    _postService.savePost(text);
+                    _postService.savePost(text, FirebaseAuth.instance.currentUser.uid);
                     Navigator.pop(context);
                   }
                 },

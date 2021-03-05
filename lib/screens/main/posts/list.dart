@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/models/post.dart';
+import 'package:social_app/models/user.dart';
 
 class ListPosts extends StatefulWidget {
   @override
@@ -10,10 +11,10 @@ class ListPosts extends StatefulWidget {
 class _ListPostsState extends State<ListPosts> {
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff181818);
+    Color bg = Color(0xff1E1E1E);
     Color fg = Color(0xff222222);
     final posts = Provider.of<List<PostModel>>(context) ?? [];
-    ;
+    final userInfo = Provider.of<UserModel>(context) ?? []; 
     return Expanded(
       child: ListView.builder(
         itemCount: posts.length,
