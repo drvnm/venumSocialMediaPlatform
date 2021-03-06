@@ -7,16 +7,16 @@ import 'package:social_app/screens/main/posts/list.dart';
 import 'package:social_app/services/posts.dart';
 import 'package:social_app/services/user.dart';
 
-class Profile extends StatefulWidget {
+class ProfileSearch extends StatefulWidget {
   final String userId;
 
-  Profile({this.userId});
+  ProfileSearch({this.userId});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileSearchState createState() => _ProfileSearchState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileSearchState extends State<ProfileSearch> {
   PostService _postService = PostService();
   UserService _userService = UserService();
 
@@ -32,7 +32,7 @@ class _ProfileState extends State<Profile> {
         StreamProvider.value(value: _userService.getUserInfo(widget.userId))
       ],
       child: Scaffold(
-          // appBar: AppBar(actions: [TextButton(onPressed: () {}, child: Icon(Icons.settings, color: Colors.white),)], backgroundColor: bg,),
+          appBar: AppBar(leading: IconButton(icon: Icon(Icons.arrow_back_sharp,), onPressed: () {Navigator.of(context).pop();}), backgroundColor: bg,),
           body: DefaultTabController(
               child: Container(
                 color: fg,

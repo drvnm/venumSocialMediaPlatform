@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main/home.dart';
@@ -10,9 +11,9 @@ class PageCon extends StatefulWidget {
 }
 
 class _PageControllerState extends State<PageCon> {
-  Color background = Color(0xff252525);
+  Color bg = Color(0xff1E1E1E);
   int _currentIndex = 0;
-  var pages = [Home(), Home(), Home(), Profile()];
+  var pages = [Home(), Search(), Home(), Profile(userId: FirebaseAuth.instance.currentUser.uid)];
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class _PageControllerState extends State<PageCon> {
         selectedLabelStyle: GoogleFonts.montserrat(),
         currentIndex: _currentIndex,
         onTap: (index) {
+          print(index); 
           setState(() {
             _currentIndex = index;
           });
@@ -36,7 +38,7 @@ class _PageControllerState extends State<PageCon> {
           item("Inbox", Icons.message_sharp),
           item("Profile", Icons.person_sharp),
         ],
-        backgroundColor: background,
+        backgroundColor: bg,
       ),
     );
   }

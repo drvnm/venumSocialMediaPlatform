@@ -16,8 +16,8 @@ class UserService {
             bio: snapshot.data()['bio'],
             email: snapshot.data()['email'],
             isVerified: snapshot.data()['isVerified'],
-            name: snapshot.data()['name'],
-            profileImgUrl: snapshot.data()['profile'],
+            name: snapshot.data()['name'] ?? 'NULL',
+            profileImgUrl: snapshot.data()['profile'] ?? "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
             postAmount: snapshot.data()['posts'],
           )
         : null;
@@ -31,8 +31,12 @@ class UserService {
         .map(_userFromFirebaseSnapshot);
   }
 
-  Future<void> getPostAmount(uid) async {
-   
+  Future<String> getIdByUsername(String username) async {
+    QuerySnapshot doc = await FirebaseFirestore.instance
+        .collection("users")
+        .where('name', isEqualTo: username).get();
+        print(doc.docs[0].id);
+    return doc.docs[0].id;
   }
 
   Future<void> updateProfile(

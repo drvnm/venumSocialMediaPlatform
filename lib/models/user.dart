@@ -8,8 +8,5 @@ class UserModel {
   final int postAmount;
 
 
-
-
-  
   UserModel({this.id, this.email, this.profileImgUrl, this.name, this.bio, this.isVerified, this.postAmount});
 }
