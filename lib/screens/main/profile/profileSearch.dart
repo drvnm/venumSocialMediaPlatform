@@ -23,7 +23,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
   @override
   Widget build(BuildContext context) {
     Color bg = Color(0xff121212);
-    Color fg = Color(0xff121212);
+    Color fg = Color(0xff222222);
     Color tg = Color(0xff595959);
 
     return MultiProvider(

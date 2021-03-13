@@ -11,7 +11,8 @@ class PageCon extends StatefulWidget {
 }
 
 class _PageControllerState extends State<PageCon> {
-  Color bg = Color(0xff1E1E1E);
+   Color bg = Color(0xff121212);
+    Color fg = Color(0xff222222);
   int _currentIndex = 0;
   var pages = [Home(), Search(), Home(), Profile(userId: FirebaseAuth.instance.currentUser.uid)];
 

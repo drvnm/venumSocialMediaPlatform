@@ -28,19 +28,18 @@ class UserService {
   UserModel _getUserPreviewModel(QueryDocumentSnapshot snapshot) {
     print(snapshot.id);
     return UserModel(
-            id: snapshot.id,
-            bio: snapshot.data()['bio'],
-            email: snapshot.data()['email'],
-            isVerified: snapshot.data()['isVerified'],
-            name: snapshot.data()['name'] ?? 'NULL',
-            profileImgUrl: snapshot.data()['profile'] ??
-                "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
-            postAmount: snapshot.data()['posts'],
-          );
+      id: snapshot.id,
+      bio: snapshot.data()['bio'],
+      email: snapshot.data()['email'],
+      isVerified: snapshot.data()['isVerified'],
+      name: snapshot.data()['name'] ?? 'NULL',
+      profileImgUrl: snapshot.data()['profile'] ??
+          "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
+      postAmount: snapshot.data()['posts'],
+    );
   }
 
   Stream<UserModel> getUserInfo(uid) {
-    
     return FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
@@ -57,16 +56,10 @@ class UserService {
   }
 
   Future<List<UserModel>> getUsersFromName(String name) async {
-    List<String> namePossibilities = [];
-
-    for (int i = 0; i < name.length; i++) {
-      namePossibilities.add(name.substring(0, i + 1));
-    }
     var docs = await FirebaseFirestore.instance
         .collection("users")
-        .where("name", whereIn: namePossibilities)
-        .limit(10)
-        .get();
+        .orderBy("name")
+        .startAt([name]).endAt([name + '\uf8ff']).get();
 
     var list = docs.docs.map(_getUserPreviewModel).toList();
     print(list[0].id);

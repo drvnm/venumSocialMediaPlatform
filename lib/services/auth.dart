@@ -30,6 +30,7 @@ class AuthService {
           'isVerified': false,
           'posts': 0,
           'profile': "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
+         
         },
       );
     } on FirebaseAuthException catch (e) {
