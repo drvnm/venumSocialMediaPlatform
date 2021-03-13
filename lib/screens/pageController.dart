@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_app/screens/main/inbox/inbox.dart';
 import 'main/home.dart';
 import 'main/profile/profile.dart';
 import 'package:social_app/screens/main/search/search.dart';
@@ -14,7 +15,7 @@ class _PageControllerState extends State<PageCon> {
    Color bg = Color(0xff121212);
     Color fg = Color(0xff222222);
   int _currentIndex = 0;
-  var pages = [Home(), Search(), Home(), Profile(userId: FirebaseAuth.instance.currentUser.uid)];
+  var pages = [Home(), Search(), Inbox(), Profile(userId: FirebaseAuth.instance.currentUser.uid)];
 
   @override
   Widget build(BuildContext context) {

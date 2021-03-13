@@ -32,7 +32,16 @@ class _ProfileSearchState extends State<ProfileSearch> {
         StreamProvider.value(value: _userService.getUserInfo(widget.userId))
       ],
       child: Scaffold(
-          appBar: AppBar(leading: IconButton(icon: Icon(Icons.arrow_back_sharp,), onPressed: () {Navigator.of(context).pop();}), backgroundColor: bg,),
+          appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_sharp,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            backgroundColor: bg,
+          ),
           body: DefaultTabController(
               child: Container(
                 color: fg,
@@ -104,7 +113,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                         children: [
                                           Column(
                                             children: [
-                                              Text("0",
+                                              Text(Provider.of<UserModel>(context).followers.toString(),
                                                   style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
                                                       fontSize: 20,
@@ -145,7 +154,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                           ),
                                           Column(
                                             children: [
-                                              Text("0",
+                                              Text(Provider.of<UserModel>(context).following.toString(),
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 20)),
@@ -211,7 +220,11 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                                           return Color(
                                                               0xffFE3B5B);
                                                         })),
-                                                        onPressed: () {},
+                                                        onPressed: () async {
+                                                          await _userService
+                                                              .followUser(widget
+                                                                  .userId);
+                                                        },
                                                         child: Text(
                                                           "Follow",
                                                           style: TextStyle(

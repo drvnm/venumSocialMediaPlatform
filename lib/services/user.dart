@@ -16,6 +16,8 @@ class UserService {
             id: snapshot.id,
             bio: snapshot.data()['bio'],
             email: snapshot.data()['email'],
+            followers: snapshot.data()['followers'],
+            following: snapshot.data()['following'],
             isVerified: snapshot.data()['isVerified'],
             name: snapshot.data()['name'] ?? 'NULL',
             profileImgUrl: snapshot.data()['profile'] ??
@@ -31,6 +33,8 @@ class UserService {
       id: snapshot.id,
       bio: snapshot.data()['bio'],
       email: snapshot.data()['email'],
+      followers: snapshot.data()['followers'],
+      following: snapshot.data()['following'],
       isVerified: snapshot.data()['isVerified'],
       name: snapshot.data()['name'] ?? 'NULL',
       profileImgUrl: snapshot.data()['profile'] ??
@@ -39,20 +43,52 @@ class UserService {
     );
   }
 
+  Future<void> followUser(id) async {
+    String loggedInUser = FirebaseAuth.instance.currentUser.uid;
+    await FirebaseFirestore.instance
+        .collection("followers")
+        .doc(id)
+        .collection("usersThatFollow")
+        .doc(loggedInUser)
+        .set({});
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(loggedInUser)
+        .update({'following': FieldValue.increment(1)});
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .update({'followers': FieldValue.increment(1)});
+  }
+
+  Future<void> unfollowUser(id) async {
+    String loggedInUser = FirebaseAuth.instance.currentUser.uid;
+    await FirebaseFirestore.instance
+        .collection("followers")
+        .doc(id)
+        .collection("usersThatFollow")
+        .doc(loggedInUser)
+        .delete();
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(loggedInUser)
+        .update({'following': FieldValue.increment(-1)});
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(id)
+        .update({'followers': FieldValue.increment(-1)});
+  }
+
   Stream<UserModel> getUserInfo(uid) {
     return FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
         .snapshots()
         .map(_userFromFirebaseSnapshot);
-  }
-
-  Future<String> getIdByUsername(String username) async {
-    QuerySnapshot doc = await FirebaseFirestore.instance
-        .collection("users")
-        .where('name', isEqualTo: username)
-        .get();
-    return doc.docs[0].id;
   }
 
   Future<List<UserModel>> getUsersFromName(String name) async {

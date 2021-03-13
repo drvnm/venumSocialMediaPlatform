@@ -145,7 +145,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                           Column(
                                             children: [
-                                              Text("0",
+                                              Text(Provider.of<UserModel>(context).following.toString(),
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 20)),

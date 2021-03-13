@@ -20,44 +20,42 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     Color bg = Color(0xff121212);
     Color fg = Color(0xff222222);
-    
+
     return Scaffold(
       backgroundColor: bg,
       body: Column(
         children: [
           Container(
-            height:80,
+            height: 80,
             child: Padding(
-              padding: const EdgeInsets.only(top:30.0, left:30.0, right:30.0),
-              
-                child: TextField(
-                  style: TextStyle(color: Colors.white),
-                  textInputAction: TextInputAction.search,
-                  onSubmitted: (_) async {
-                    
-                    users = await userService.getUsersFromName(username);
+              padding:
+                  const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+              child: TextField(
+                style: TextStyle(color: Colors.white),
+                textInputAction: TextInputAction.search,
+                autofocus: true,
+                onChanged: (val) async {
+                  username = val;
+                  users = await userService.getUsersFromName(username);
 
-                    setState(() {});
-                  },
-                  autofocus: true,
-                  onChanged: (val) {
-                    username = val;
-                  },
-                  decoration: InputDecoration(
-                
+                  setState(() {});
+                },
+                decoration: InputDecoration(
                   fillColor: Colors.white,
-               
-                    border: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(19.0),
-                      ),
+                  border: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(19.0),
                     ),
-                    prefixIcon: Icon(Icons.search_sharp, color: Colors.grey, size: 25, ),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_sharp,
+                    color: Colors.grey,
+                    size: 25,
                   ),
                 ),
               ),
+            ),
           ),
-          
           Expanded(
             child: ListView.builder(
               itemCount: users.length,
