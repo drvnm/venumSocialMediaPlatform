@@ -10,6 +10,17 @@ import 'package:social_app/services/utils.dart';
 class UserService {
   UtilsService _utilsService = UtilsService();
 
+  Future<bool> isFollowing(id) async {
+    var doc = await FirebaseFirestore.instance
+        .collection("followers")
+        .doc(id)
+        .collection("usersThatFollow")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
+
+    return doc.exists;
+  }
+
   UserModel _userFromFirebaseSnapshot(DocumentSnapshot snapshot) {
     return snapshot != null
         ? UserModel(
@@ -61,6 +72,10 @@ class UserService {
         .collection("users")
         .doc(id)
         .update({'followers': FieldValue.increment(1)});
+    await FirebaseFirestore.instance
+        .collection("following")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("users").doc(id).set({});
   }
 
   Future<void> unfollowUser(id) async {
@@ -81,6 +96,10 @@ class UserService {
         .collection("users")
         .doc(id)
         .update({'followers': FieldValue.increment(-1)});
+    await FirebaseFirestore.instance
+        .collection("following")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("users").doc(id).delete();
   }
 
   Stream<UserModel> getUserInfo(uid) {

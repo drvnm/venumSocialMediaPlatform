@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff121212);
+    Color bg = Colors.black;
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
 
@@ -35,7 +35,7 @@ class _ProfileState extends State<Profile> {
           // appBar: AppBar(actions: [TextButton(onPressed: () {}, child: Icon(Icons.settings, color: Colors.white),)], backgroundColor: bg,),
           body: DefaultTabController(
               child: Container(
-                color: fg,
+                color: bg,
                 child: NestedScrollView(
                   headerSliverBuilder: (context, _) {
                     return [

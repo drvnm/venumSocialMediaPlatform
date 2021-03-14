@@ -27,7 +27,7 @@ class _EditState extends State<Edit> {
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff121212);
+    Color bg = Colors.black;
     Color fg = Color(0xff222222);
     return Scaffold(
       appBar: AppBar(
@@ -75,16 +75,14 @@ class _EditState extends State<Edit> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 30),
                   color: fg,
-                 
                   child: Column(children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 18.0),
                       child: TextFormField(
                         style: TextStyle(color: Colors.white),
                         maxLength: 10,
-                        
                         decoration: InputDecoration(
                           labelText: "USERNAME",
                           labelStyle: GoogleFonts.varelaRound(
@@ -104,7 +102,7 @@ class _EditState extends State<Edit> {
                     ),
                     TextFormField(
                       maxLength: 90,
-                       maxLines: null,
+                      maxLines: null,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "BIO",

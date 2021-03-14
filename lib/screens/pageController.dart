@@ -12,10 +12,15 @@ class PageCon extends StatefulWidget {
 }
 
 class _PageControllerState extends State<PageCon> {
-   Color bg = Color(0xff121212);
-    Color fg = Color(0xff222222);
+  Color bg = Colors.black;
+  Color fg = Color(0xff222222);
   int _currentIndex = 0;
-  var pages = [Home(), Search(), Inbox(), Profile(userId: FirebaseAuth.instance.currentUser.uid)];
+  var pages = [
+    Home(),
+    Search(),
+    Inbox(),
+    Profile(userId: FirebaseAuth.instance.currentUser.uid)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +30,13 @@ class _PageControllerState extends State<PageCon> {
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         unselectedLabelStyle: GoogleFonts.montserrat(),
         selectedLabelStyle: GoogleFonts.montserrat(),
         currentIndex: _currentIndex,
         onTap: (index) {
-          print(index); 
+          print(index);
           setState(() {
             _currentIndex = index;
           });

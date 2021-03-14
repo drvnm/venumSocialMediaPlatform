@@ -19,11 +19,21 @@ class ProfileSearch extends StatefulWidget {
 class _ProfileSearchState extends State<ProfileSearch> {
   PostService _postService = PostService();
   UserService _userService = UserService();
+  bool isFollowing = false;
+
+  @override
+  initState() {
+    super.initState();
+    _userService.isFollowing(widget.userId).then((val) {
+      isFollowing = val;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff121212);
-    Color fg = Color(0xff222222);
+    Color bg = Colors.black;
+    Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
 
     return MultiProvider(
@@ -113,7 +123,11 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                         children: [
                                           Column(
                                             children: [
-                                              Text(Provider.of<UserModel>(context).followers.toString(),
+                                              Text(
+                                                  Provider.of<UserModel>(
+                                                          context)
+                                                      .followers
+                                                      .toString(),
                                                   style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
                                                       fontSize: 20,
@@ -154,7 +168,11 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                           ),
                                           Column(
                                             children: [
-                                              Text(Provider.of<UserModel>(context).following.toString(),
+                                              Text(
+                                                  Provider.of<UserModel>(
+                                                          context)
+                                                      .following
+                                                      .toString(),
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 20)),
@@ -201,46 +219,36 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                                         0.2),
                                             child: Row(
                                               children: [
-                                                Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 23),
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.50,
-                                                      child: OutlinedButton(
-                                                        style: ButtonStyle(
-                                                            backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .resolveWith<
-                                                                            Color>(
-                                                                        (states) {
-                                                          return Color(
-                                                              0xffFE3B5B);
-                                                        })),
-                                                        onPressed: () async {
-                                                          await _userService
-                                                              .followUser(widget
-                                                                  .userId);
-                                                        },
-                                                        child: Text(
-                                                          "Follow",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ),
-                                                    ) ??
-                                                    Container(),
+                                                isFollowing
+                                                    ? makeButton("Unfollow",
+                                                        () async {
+                                                        await _userService
+                                                            .unfollowUser(
+                                                                widget.userId);
+                                                        isFollowing = false;
+                                                        setState(() {});
+                                                      }, context)
+                                                    : makeButton("Follow",
+                                                        () async {
+                                                        await _userService
+                                                            .followUser(
+                                                                widget.userId);
+                                                        isFollowing = true;
+                                                        setState(() {});
+                                                      }, context),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 8.0),
-                                                  child: Icon(
+                                                          left: 0.0),
+                                                  child: IconButton(
+                                                    icon: Icon(
                                                       Icons.message_sharp,
-                                                      color: Color(0xffFE3B5B)),
+                                                      color: Color(0xffFE3B5B),
+                                                    ),
+                                                    onPressed: () {
+                                                      print("ytest");
+                                                    },
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -270,3 +278,27 @@ class _ProfileSearchState extends State<ProfileSearch> {
     );
   }
 }
+
+Widget makeButton(text, function, context) {
+  return Container(
+    padding: EdgeInsets.symmetric(vertical: 23),
+    width: MediaQuery.of(context).size.width * 0.47,
+    child: OutlinedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+        return Color(0xffFE3B5B);
+      })),
+      onPressed: function,
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  );
+}
+
+// () async {
+//                                                                     await _userService
+//                                                                         .followUser(
+//                                                                             widget.userId);
+//                                                                   },

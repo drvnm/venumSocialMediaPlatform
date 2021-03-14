@@ -18,7 +18,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff121212);
+    Color bg = Colors.black;
     Color fg = Color(0xff222222);
 
     return Scaffold(
