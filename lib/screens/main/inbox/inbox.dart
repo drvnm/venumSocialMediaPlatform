@@ -9,8 +9,9 @@ class Inbox extends StatefulWidget {
 class _InboxState extends State<Inbox> {
   @override
   Widget build(BuildContext context) {
-    Color bg = Color(0xff121212);
-    Color fg = Color(0xff222222);
+    Color bg = Colors.black;
+    Color fg = Color(0xff121212);
+    Color tg = Color(0xff595959);
     return Scaffold(
         appBar: AppBar(
       backgroundColor: bg,
@@ -19,7 +20,9 @@ class _InboxState extends State<Inbox> {
       actions: [
         IconButton(
           icon: Icon(Icons.message_sharp, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/messages');
+          },
         ),
       ],
     ));

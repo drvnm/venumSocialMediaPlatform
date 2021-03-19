@@ -15,8 +15,8 @@ class _ListPostsFeedState extends State<ListPostsFeed> {
   Widget build(BuildContext context) {
     Color bg = Color(0xff1E1E1E);
     Color fg = Color(0xff222222);
-    final posts = Provider.of<List<List<PostModel>>>(context) ?? [];
-    final userInfo = Provider.of<UserModel>(context) ?? null;
+    final posts = Provider.of<List<String>>(context) ?? [];
+    
 
     print(posts);
     return Text("test");

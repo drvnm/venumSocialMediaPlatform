@@ -3,8 +3,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/models/post.dart';
 
 class PostService {
+  FirebaseFirestore instance = FirebaseFirestore.instance;
+
+  List<String> getPostsFromIds(QuerySnapshot snapshot) {
+    print("Getting ids");
+    return snapshot.docs.map((doc) {
+      print("gggg");
+      return doc.id;
+    }).toList();
+    // return instance
+    //     .collection("posts")
+    //     .where("creator", whereIn: ids)
+    //     .snapshots()
+    //     .map(_postListFromSnapshot)
+    //     .toList();
+  }
+
+   Stream<List<String>> getFeedFromFollowing() {
+     print("ye");
+    var x = instance
+        .collection("following")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("users")
+        .snapshots()
+        .map(getPostsFromIds);
+      return x;
+  }
+
   List<PostModel> _postListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
+      print(doc.id);
       return PostModel(
         id: doc.id,
         text: doc.data()['text'] ?? '',
@@ -14,7 +42,7 @@ class PostService {
     }).toList();
   }
 
-  List<PostModel> _postListFromDocs( snapshot) {
+  List<PostModel> _postListFromDocs(snapshot) {
     return snapshot.docs.map((doc) {
       return PostModel(
         id: doc.id,
@@ -26,46 +54,24 @@ class PostService {
   }
 
   Future savePost(String text, uid) async {
-    await FirebaseFirestore.instance.collection("posts").add({
+    await instance.collection("posts").add({
       'text': text,
       'creator': FirebaseAuth.instance.currentUser.uid,
       'likes': 0,
       'comments': 0,
       'timestamp': FieldValue.serverTimestamp(),
     });
-    await FirebaseFirestore.instance
+    await instance
         .collection("users")
         .doc(uid)
         .update({'posts': FieldValue.increment(1)});
   }
 
   Stream<List<PostModel>> getPostsByUser(uid) {
-    return FirebaseFirestore.instance
+    return instance
         .collection('posts')
         .where('creator', isEqualTo: uid)
         .snapshots()
         .map(_postListFromSnapshot);
-  }
-
-   _getPostsByUsers(QuerySnapshot snapshot) {
-    // voor elk document
-   return snapshot.docs.map((doc) async  {
-     print(doc.id);
-      var docs = await FirebaseFirestore.instance
-          .collection('posts')
-          .where("creator", isEqualTo: doc.id)
-          .get();
-       return docs.docs.map(_postListFromDocs).toList();
-    }).toList();
-  }
-
-  Stream<List<List<PostModel>>> getPostsFromFollowingUsers() {
-    var docs = FirebaseFirestore.instance
-        .collection('following')
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection("users")
-        .snapshots()
-        .map(_getPostsByUsers);
-    print(docs);
   }
 }

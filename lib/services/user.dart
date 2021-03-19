@@ -8,10 +8,11 @@ import 'package:social_app/models/user.dart';
 import 'package:social_app/services/utils.dart';
 
 class UserService {
+  FirebaseFirestore instance = FirebaseFirestore.instance;
   UtilsService _utilsService = UtilsService();
 
   Future<bool> isFollowing(id) async {
-    var doc = await FirebaseFirestore.instance
+    var doc = await instance
         .collection("followers")
         .doc(id)
         .collection("usersThatFollow")
@@ -56,54 +57,58 @@ class UserService {
 
   Future<void> followUser(id) async {
     String loggedInUser = FirebaseAuth.instance.currentUser.uid;
-    await FirebaseFirestore.instance
+    await instance
         .collection("followers")
         .doc(id)
         .collection("usersThatFollow")
         .doc(loggedInUser)
         .set({});
 
-    await FirebaseFirestore.instance
+    await instance
         .collection("users")
         .doc(loggedInUser)
         .update({'following': FieldValue.increment(1)});
 
-    await FirebaseFirestore.instance
+    await instance
         .collection("users")
         .doc(id)
         .update({'followers': FieldValue.increment(1)});
-    await FirebaseFirestore.instance
+    await instance
         .collection("following")
         .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection("users").doc(id).set({});
+        .collection("users")
+        .doc(id)
+        .set({});
   }
 
   Future<void> unfollowUser(id) async {
     String loggedInUser = FirebaseAuth.instance.currentUser.uid;
-    await FirebaseFirestore.instance
+    await instance
         .collection("followers")
         .doc(id)
         .collection("usersThatFollow")
         .doc(loggedInUser)
         .delete();
 
-    await FirebaseFirestore.instance
+    await instance
         .collection("users")
         .doc(loggedInUser)
         .update({'following': FieldValue.increment(-1)});
 
-    await FirebaseFirestore.instance
+    await instance
         .collection("users")
         .doc(id)
         .update({'followers': FieldValue.increment(-1)});
-    await FirebaseFirestore.instance
+    await instance
         .collection("following")
         .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection("users").doc(id).delete();
+        .collection("users")
+        .doc(id)
+        .delete();
   }
 
   Stream<UserModel> getUserInfo(uid) {
-    return FirebaseFirestore.instance
+    return instance
         .collection("users")
         .doc(uid)
         .snapshots()
@@ -111,7 +116,7 @@ class UserService {
   }
 
   Future<List<UserModel>> getUsersFromName(String name) async {
-    var docs = await FirebaseFirestore.instance
+    var docs = await instance
         .collection("users")
         .orderBy("name")
         .startAt([name]).endAt([name + '\uf8ff']).get();
@@ -120,6 +125,8 @@ class UserService {
     print(list[0].id);
     return list;
   }
+
+  
 
   Future<void> updateProfile(
       File _profileImage, String name, String bio) async {
@@ -135,7 +142,7 @@ class UserService {
     if (profileImageUrl != '') data["profile"] = profileImageUrl;
     if (bio != '') data["bio"] = bio;
 
-    await FirebaseFirestore.instance
+    await instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
         .update(data);

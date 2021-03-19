@@ -35,8 +35,15 @@ class Home extends StatelessWidget {
         ),
       ),
       body: StreamProvider.value(
-          value: PostService().getPostsFromFollowingUsers(),
-          child: ListPostsFeed()),
+          value: PostService().getFeedFromFollowing(),
+          child: Text("e"
+            // future: Provider.of<Future<List<List<PostModel>>>>(context),
+            // builder: (context, snapshot) {
+            //   if (snapshot.hasData) {
+            //     print("" * 33); 
+            //   }
+            // },
+          )),
     );
   }
 }
