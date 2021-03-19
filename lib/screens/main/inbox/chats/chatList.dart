@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/models/group.dart';
+import 'package:social_app/screens/main/inbox/chats/chat.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -19,12 +20,23 @@ class _ChatListState extends State<ChatList> {
         itemCount: groups.length,
         itemBuilder: (context, index) {
           GroupModel group = groups[index];
-          
+
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                            groupName: group.groupName,
+                            groupId: group.id,
+                          )),
+                );
+              },
               tileColor: fg,
-              title: Text(group.groupName, style: TextStyle(color: Colors.white)),
+              title:
+                  Text(group.groupName, style: TextStyle(color: Colors.white)),
             ),
           );
         });
