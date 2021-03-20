@@ -57,7 +57,7 @@ class _ProfileState extends State<Profile> {
                                       child: ClipOval(
                                         child: Image.network(
                                           Provider.of<UserModel>(context)
-                                                  .profileImgUrl ??
+                                                  ?.profileImgUrl ??
                                               '',
                                           height: 90,
                                           width: 90,

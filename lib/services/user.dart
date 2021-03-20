@@ -26,7 +26,7 @@ class UserService {
     return snapshot != null
         ? UserModel(
             id: snapshot.id,
-            bio: snapshot.data()['bio'],
+            bio: snapshot.data()['bio'] ?? "NULL",
             email: snapshot.data()['email'],
             followers: snapshot.data()['followers'],
             following: snapshot.data()['following'],

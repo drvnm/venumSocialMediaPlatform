@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_app/models/group.dart';
 import 'package:social_app/models/message.dart';
+import 'package:social_app/models/user.dart';
 
 class GroupService {
   FirebaseFirestore instance = FirebaseFirestore.instance;
@@ -35,22 +38,35 @@ class GroupService {
         .map(_getGroupModel);
   }
 
-  Future<void> addMessage(String id, String text) async {
-    await instance.collection("chats").doc(id).collection("messages").add({
-      "creator": FirebaseAuth.instance.currentUser.uid,
-      "text": text,
-      "timestamp": Timestamp.now()
-    });
+  Future<void> addMessage(String id, String text, UserModel user) async {
+    if (user != null) {
+      print(user?.isVerified);
+      print(user?.email);
+      await instance.collection("chats").doc(id).collection("messages").add({
+        "creator": FirebaseAuth.instance.currentUser.uid,
+        "text": text,
+        "timestamp": Timestamp.now(),
+        "isVerified": user.isVerified ?? false,
+        "username": user.name ?? "NULL",
+        "profileImageUrl": user.profileImgUrl ??
+            "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jp",
+      });
+    }
   }
 
-  List<MessageModel>_getMessageModel(QuerySnapshot snapshot) {
+  List<MessageModel> _getMessageModel(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       var data = doc.data();
-      return MessageModel(
-        creator: data['creator'],
-        text: data['text'] ?? "NULL",
-        timestamp: data['timestamp'],
-      );
+      return doc != null
+          ? MessageModel(
+              isVerified: data['isVerified'],
+              profileImgUrl: data['profileImageUrl'],
+              name: data['username'],
+              creator: data['creator'],
+              text: data['text'] ?? "NULL",
+              timestamp: data['timestamp'],
+            )
+          : null;
     }).toList();
   }
 
