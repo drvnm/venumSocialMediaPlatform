@@ -11,7 +11,7 @@ class GroupService {
   Future<void> addGroup(String username, String groupName) async {
     var result = await instance
         .collection("users")
-        .where("name", isEqualTo: username)
+        .where("username", isEqualTo: username)
         .get();
 
     String id = result.docs[0].id;

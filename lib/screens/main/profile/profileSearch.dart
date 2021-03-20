@@ -93,7 +93,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                         children: [
                                           Text(
                                             Provider.of<UserModel>(context)
-                                                    .name ??
+                                                    ?.name ??
                                                 '',
                                             style: GoogleFonts.montserrat(
                                               textStyle: TextStyle(
@@ -216,7 +216,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                                     MediaQuery.of(context)
                                                             .size
                                                             .width *
-                                                        0.2),
+                                                        0.25),
                                             child: Row(
                                               children: [
                                                 isFollowing
@@ -236,20 +236,7 @@ class _ProfileSearchState extends State<ProfileSearch> {
                                                         isFollowing = true;
                                                         setState(() {});
                                                       }, context),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 0.0),
-                                                  child: IconButton(
-                                                    icon: Icon(
-                                                      Icons.message_sharp,
-                                                      color: Color(0xffFE3B5B),
-                                                    ),
-                                                    onPressed: () {
-                                                      print("ytest");
-                                                    },
-                                                  ),
-                                                ),
+                                                
                                               ],
                                             ),
                                           ),

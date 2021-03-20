@@ -9,7 +9,9 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
-  Color bg = Color(0xff313131);
+    Color bg = Colors.black;
+    Color fg = Color(0xff121212);
+    Color tg = Color(0xff595959);
   final PostService _postService = PostService();
   String text = '';
   @override

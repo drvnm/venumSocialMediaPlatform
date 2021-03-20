@@ -10,17 +10,22 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color bg = Colors.black;
+    Color fg = Color(0xff121212);
+    Color tg = Color(0xff595959);
+
     return Scaffold(
+      backgroundColor: bg,
       appBar: AppBar(
         actions: [
           TextButton(
-            child: Text("logout"),
+            child: Icon(Icons.logout, color: Colors.white),
             onPressed: () {
               AuthService().signOut();
             },
           )
         ],
-        title: Text("home"),
+        centerTitle: true,
+        title: Text("HOME"),
         backgroundColor: bg,
       ),
       floatingActionButton: FloatingActionButton(
@@ -29,21 +34,19 @@ class Home extends StatelessWidget {
         },
         child: Icon(Icons.add_sharp),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [],
+      body: StreamProvider.value(
+        value: PostService().getFeedFromFollowing(),
+        child: Center(
+          child: Text("USER FEED WILL BE HERE.",
+              style: TextStyle(color: Colors.white)),
+          // future: Provider.of<Future<List<List<PostModel>>>>(context),
+          // builder: (context, snapshot) {
+          //   if (snapshot.hasData) {
+          //     print("" * 33);
+          //   }
+          // },
         ),
       ),
-      body: StreamProvider.value(
-          value: PostService().getFeedFromFollowing(),
-          child: Text("e"
-            // future: Provider.of<Future<List<List<PostModel>>>>(context),
-            // builder: (context, snapshot) {
-            //   if (snapshot.hasData) {
-            //     print("" * 33); 
-            //   }
-            // },
-          )),
     );
   }
 }

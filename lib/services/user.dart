@@ -31,7 +31,7 @@ class UserService {
             followers: snapshot.data()['followers'],
             following: snapshot.data()['following'],
             isVerified: snapshot.data()['isVerified'],
-            name: snapshot.data()['name'] ?? 'NULL',
+            name: snapshot.data()['username'] ?? 'NULL',
             profileImgUrl: snapshot.data()['profile'] ??
                 "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
             postAmount: snapshot.data()['posts'],
@@ -43,15 +43,15 @@ class UserService {
     print(snapshot.id);
     return UserModel(
       id: snapshot.id,
-      bio: snapshot.data()['bio'],
-      email: snapshot.data()['email'],
-      followers: snapshot.data()['followers'],
-      following: snapshot.data()['following'],
+      bio: snapshot.data()['bio']?? '',
+      email: snapshot.data()['email'] ?? '',
+      followers: snapshot.data()['followers'] ?? 0,
+      following: snapshot.data()['following'] ?? 0,
       isVerified: snapshot.data()['isVerified'],
-      name: snapshot.data()['name'] ?? 'NULL',
+      name: snapshot.data()['username'] ?? 'NULL',
       profileImgUrl: snapshot.data()['profile'] ??
           "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
-      postAmount: snapshot.data()['posts'],
+      postAmount: snapshot.data()['posts'] ?? '',
     );
   }
 
@@ -118,7 +118,7 @@ class UserService {
   Future<List<UserModel>> getUsersFromName(String name) async {
     var docs = await instance
         .collection("users")
-        .orderBy("name")
+        .orderBy("username")
         .startAt([name]).endAt([name + '\uf8ff']).get();
 
     var list = docs.docs.map(_getUserPreviewModel).toList();
@@ -138,7 +138,7 @@ class UserService {
     }
 
     Map<String, Object> data = HashMap();
-    if (name != '') data["name"] = name;
+    if (name != '') data["username"] = name;
     if (profileImageUrl != '') data["profile"] = profileImageUrl;
     if (bio != '') data["bio"] = bio;
 

@@ -34,6 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
         title: Text(
           widget.groupName,
         ),
+        actions: [TextButton(child: Icon(Icons.person_add_sharp, color: Colors.white))],
       ),
       body: Column(children: [
         ListMessages(),
@@ -60,16 +61,16 @@ class _ChatRoomState extends State<ChatRoom> {
             TextButton(
               child: Icon(Icons.send_sharp, color: Colors.white),
               onPressed: () async {
-                if (message != '') {
+                
                   await _groupService.addMessage(widget.groupId, message,
                       Provider.of<UserModel>(context, listen: false));
-                  message = "";
+                  message = '';
                   _controller.clear();
-                } else {
-                  print(FirebaseAuth.instance.currentUser.uid);
-                  print(Provider.of<UserModel>(context, listen: false)
-                      .isVerified);
-                }
+                // } else {
+                //   print(FirebaseAuth.instance.currentUser.uid);
+                //   print(Provider.of<UserModel>(context, listen: false)
+                //       .isVerified);
+                // }
               },
             ),
           ],
@@ -78,3 +79,4 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 }
+

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/screens/authentication/login.dart';
 import '../../services/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -144,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         onPressed: () {
-                          AuthService().signUp(email, password);
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegisterPageTwo()));
                         },
                         child: Text(
                           "CREATE ACCOUNT",

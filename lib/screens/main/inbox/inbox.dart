@@ -13,6 +13,7 @@ class _InboxState extends State<Inbox> {
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
     return Scaffold(
+      backgroundColor: bg,
         appBar: AppBar(
       backgroundColor: bg,
       centerTitle: true,

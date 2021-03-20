@@ -30,6 +30,7 @@ class _EditState extends State<Edit> {
     Color bg = Colors.black;
     Color fg = Color(0xff222222);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: bg,
         centerTitle: true,
@@ -58,7 +59,7 @@ class _EditState extends State<Edit> {
                 color: bg,
               ),
               width: MediaQuery.of(context).size.width,
-              height: 300,
+              height: 250,
               child: TextButton(
                 onPressed: getImage,
                 child: _profileImage == null

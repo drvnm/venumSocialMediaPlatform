@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:social_app/services/groups.dart';
 
 class AddChat extends StatefulWidget {
@@ -16,26 +17,56 @@ class _AddChatState extends State<AddChat> {
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
     return Scaffold(
+        backgroundColor: bg,
         appBar: AppBar(
           title: Text("Add person to group"),
           backgroundColor: bg,
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-              onChanged: (value) {
-                username = value;
-                print(username);
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: TextFormField(
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: "USERNAME",
+                  labelStyle: GoogleFonts.varelaRound(
+                    height: -20,
+                    textStyle: TextStyle(
+                      letterSpacing: 2,
+                      fontSize: 15,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                onChanged: (val) => setState(() {
+                  username = val;
+                  print(username);
+                }),
+              ),
             ),
-             TextFormField(
-              onChanged: (value) {
-                groupName = value;
-                print(groupName);
-              },
-            ),
+               Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: "GROUP NAME",
+                      labelStyle: GoogleFonts.varelaRound(
+                        height: -20,
+                        textStyle: TextStyle(
+                          letterSpacing: 2,
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    onChanged: (val) => setState(() {
+                      groupName = val;
+                      print(groupName);
+                    }),
+                  ),
+                ),
             ElevatedButton(
               child: Text("Create Group"),
               onPressed: () async {

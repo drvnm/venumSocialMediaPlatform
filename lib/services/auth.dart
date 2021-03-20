@@ -13,28 +13,39 @@ class AuthService {
     return auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
-  Future signUp(String email, String password) async {
+  Future signUp(String email, String password, String username) async {
     try {
-      UserCredential user = await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password);
-      _userFromFirebaseUser(user.user);
+      var docs = await FirebaseFirestore.instance
+          .collection("users")
+          .where("username", isEqualTo: username) .limit(1)
+    .get();
+    print(docs.docs.length == 0);
+        // print(docs.docs.);
+      if (docs == null || docs.docs.length == 0) {
+        print("user did not exist");
+        UserCredential user = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        _userFromFirebaseUser(user.user);
 
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.user.uid)
-          .set(
-        {
-          'username': email,
-          'email': email,
-          'bio': 'No bio yet',
-          'isVerified': false,
-          'posts': 0,
-          'followers': 0,
-          'following': 0,
-          'profile': "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
-         
-        },
-      );
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.user.uid)
+            .set(
+          {
+            'username': username,
+            'email': email,
+            'bio': 'No bio yet',
+            'isVerified': false,
+            'posts': 0,
+            'followers': 0,
+            'following': 0,
+            'profile':
+                "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
+          },
+        );
+      } else {
+        print("user did exist");
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
