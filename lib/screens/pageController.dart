@@ -44,7 +44,7 @@ class _PageControllerState extends State<PageCon> {
         items: <BottomNavigationBarItem>[
           item("Home", Icons.home_sharp),
           item("Search", Icons.search_sharp),
-          item("Inbox", Icons.message_sharp),
+          item("Inbox", Icons.notifications_sharp),
           item("Profile", Icons.person_sharp),
         ],
         backgroundColor: bg,

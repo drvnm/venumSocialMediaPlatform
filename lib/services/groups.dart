@@ -38,20 +38,21 @@ class GroupService {
         .map(_getGroupModel);
   }
 
-  Future<void> addMessage(String id, String text, UserModel user) async {
-    if (user != null) {
-      print(user?.isVerified);
-      print(user?.email);
-      await instance.collection("chats").doc(id).collection("messages").add({
-        "creator": FirebaseAuth.instance.currentUser.uid,
-        "text": text,
-        "timestamp": Timestamp.now(),
-        "isVerified": user.isVerified ?? false,
-        "username": user.name ?? "NULL",
-        "profileImageUrl": user.profileImgUrl ??
-            "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jp",
-      });
-    }
+  Future<void> addMessage(String id, String text) async {
+    var user = await instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
+    var data = user.data();
+
+    await instance.collection("chats").doc(id).collection("messages").add({
+      "creator": FirebaseAuth.instance.currentUser.uid,
+      "text": text,
+      "timestamp": FieldValue.serverTimestamp(),
+      "isVerified": data['isVerified'],
+      "username": data['username'],
+      "profileImageUrl": data["profile"],
+    });
   }
 
   List<MessageModel> _getMessageModel(QuerySnapshot snapshot) {

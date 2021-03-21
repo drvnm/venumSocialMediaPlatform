@@ -8,7 +8,7 @@ import 'package:social_app/screens/main/profile/edit.dart';
 import 'package:social_app/screens/main/search/search.dart';
 import 'main/inbox/chats/addChat.dart';
 import 'main/profile/profile.dart';
-import 'pageController.dart'; 
+import 'pageController.dart';
 
 class Wrapper extends StatelessWidget {
   @override
@@ -16,20 +16,20 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<UserModel>(context);
     if (user == null) {
       return RegisterPage();
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => PageCon(),
+          '/add': (context) => Add(),
+          '/profile': (context) => Profile(),
+          '/edit': (context) => Edit(),
+          '/search': (context) => Search(),
+          '/messages': (context) => Chats(),
+          '/addChat': (context) => AddChat(),
+        },
+      );
     }
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/' : (context) => PageCon(),
-        '/add' : (context) => Add(),
-        '/profile': (context) => Profile(),
-        '/edit' : (context) => Edit(),
-        '/search': (context) => Search(),
-        '/messages': (context) => Chats(),
-        '/addChat': (context) => AddChat(),
-      }
-    );
-
   }
 }

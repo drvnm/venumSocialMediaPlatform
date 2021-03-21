@@ -16,6 +16,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  final _controllerTwo = ScrollController();
   String message = "";
   GroupService _groupService = GroupService();
   UserService _userService = UserService();
@@ -25,6 +26,7 @@ class _ChatRoomState extends State<ChatRoom> {
     Color bg = Colors.black;
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
+    
     return Scaffold(
       backgroundColor: bg,
       appBar: AppBar(
@@ -37,11 +39,24 @@ class _ChatRoomState extends State<ChatRoom> {
         actions: [TextButton(child: Icon(Icons.person_add_sharp, color: Colors.white))],
       ),
       body: Column(children: [
-        ListMessages(),
+        ListMessages(controller: _controllerTwo,),
         Row(
           children: [
             Expanded(
-              child: TextFormField(
+              child: TextField(
+                 textInputAction: TextInputAction.go,
+                 onSubmitted: (String _) async {
+                if(message!= ""){
+                  await _groupService.addMessage(widget.groupId, message,
+                      );
+                  message = '';
+                  _controller.clear();
+                  _controllerTwo.jumpTo(_controllerTwo.position.maxScrollExtent);
+                  return;
+                }
+                print("text was empty..");
+               
+              },
                 controller: _controller,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
@@ -61,11 +76,15 @@ class _ChatRoomState extends State<ChatRoom> {
             TextButton(
               child: Icon(Icons.send_sharp, color: Colors.white),
               onPressed: () async {
-                
+                if(message!= ""){
                   await _groupService.addMessage(widget.groupId, message,
-                      Provider.of<UserModel>(context, listen: false));
+                      );
                   message = '';
                   _controller.clear();
+                  _controllerTwo.jumpTo(_controllerTwo.position.maxScrollExtent);
+                  return;
+                }
+                print("text was empty..");
                 // } else {
                 //   print(FirebaseAuth.instance.currentUser.uid);
                 //   print(Provider.of<UserModel>(context, listen: false)
