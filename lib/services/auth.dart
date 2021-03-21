@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -17,14 +18,16 @@ class AuthService {
     try {
       var docs = await FirebaseFirestore.instance
           .collection("users")
-          .where("username", isEqualTo: username) .limit(1)
-    .get();
-    print(docs.docs.length == 0);
-        // print(docs.docs.);
+          .where("username", isEqualTo: username)
+          .limit(1)
+          .get();
+      print(docs.docs.length == 0);
+      // print(docs.docs.);
       if (docs == null || docs.docs.length == 0) {
         print("user did not exist");
         UserCredential user = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+            .createUserWithEmailAndPassword(
+                email: email.replaceAll(" ", ""), password: password);
         _userFromFirebaseUser(user.user);
 
         await FirebaseFirestore.instance
@@ -42,7 +45,9 @@ class AuthService {
             'profile':
                 "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
           },
+          
         );
+        
       } else {
         print("user did exist");
       }
