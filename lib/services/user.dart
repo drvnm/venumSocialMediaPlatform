@@ -12,6 +12,7 @@ class UserService {
   UtilsService _utilsService = UtilsService();
 
   Future<bool> isFollowing(id) async {
+    // returns true if user id is in documents of followings collection
     var doc = await instance
         .collection("followers")
         .doc(id)
@@ -43,7 +44,7 @@ class UserService {
     print(snapshot.id);
     return UserModel(
       id: snapshot.id,
-      bio: snapshot.data()['bio']?? '',
+      bio: snapshot.data()['bio'] ?? '',
       email: snapshot.data()['email'] ?? '',
       followers: snapshot.data()['followers'] ?? 0,
       following: snapshot.data()['following'] ?? 0,
@@ -55,6 +56,7 @@ class UserService {
     );
   }
 
+// TODO: fix all this
   Future<void> followUser(id) async {
     String loggedInUser = FirebaseAuth.instance.currentUser.uid;
     await instance
@@ -125,8 +127,6 @@ class UserService {
     print(list[0].id);
     return list;
   }
-
-  
 
   Future<void> updateProfile(
       File _profileImage, String name, String bio) async {

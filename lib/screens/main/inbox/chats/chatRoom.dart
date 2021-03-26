@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,40 +39,44 @@ class _ChatRoomState extends State<ChatRoom> {
           widget.groupName,
         ),
         actions: [TextButton(child: Icon(Icons.person_add_sharp, color: Colors.white))],
-      ),
+      ), 
       body: Column(children: [
         ListMessages(controller: _controllerTwo,),
         Row(
           children: [
             Expanded(
-              child: TextField(
-                 textInputAction: TextInputAction.go,
-                 onSubmitted: (String _) async {
-                if(message!= ""){
-                  await _groupService.addMessage(widget.groupId, message,
-                      );
-                  message = '';
-                  _controller.clear();
-                  _controllerTwo.jumpTo(_controllerTwo.position.maxScrollExtent);
-                  return;
-                }
-                print("text was empty..");
-               
-              },
-                controller: _controller,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: "Share your thoughts!",
-                  hintStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(15.0)),
-                ),
-                onChanged: (value) {
-                  message = value;
+              child: Container(
+                height: 50,
+                child: TextField(
+                  onTap: () { _controllerTwo.jumpTo(_controllerTwo.position.maxScrollExtent);},
+                   textInputAction: TextInputAction.go,
+                   onSubmitted: (String _) async {
+                  if(message!= ""){
+                    await _groupService.addMessage(widget.groupId, message,
+                        );
+                    message = '';
+                    _controller.clear();
+                    _controllerTwo.jumpTo(_controllerTwo.position.maxScrollExtent);
+                    return;
+                  }
+                  print("text was empty..");
+                 
                 },
+                  controller: _controller,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Type a message",
+                    hintStyle: TextStyle(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0)),
+                  ),
+                  onChanged: (value) {
+                    message = value;
+                  },
+                ),
               ),
             ),
             TextButton(

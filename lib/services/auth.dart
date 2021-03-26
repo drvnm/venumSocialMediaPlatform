@@ -16,20 +16,23 @@ class AuthService {
 
   Future signUp(String email, String password, String username) async {
     try {
+      // check if username exists
       var docs = await FirebaseFirestore.instance
           .collection("users")
           .where("username", isEqualTo: username)
           .limit(1)
           .get();
       print(docs.docs.length == 0);
-      // print(docs.docs.);
+      
       if (docs == null || docs.docs.length == 0) {
         print("user did not exist");
+        // sign in with firebase auth
         UserCredential user = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: email.replaceAll(" ", ""), password: password);
         _userFromFirebaseUser(user.user);
 
+        // create user in firestore
         await FirebaseFirestore.instance
             .collection('users')
             .doc(user.user.uid)
@@ -64,8 +67,9 @@ class AuthService {
 
   void signIn(String email, String password) async {
     try {
-      User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email, password: password)) as User;
+      // login
+      UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       print(e);
     } catch (e) {
@@ -75,6 +79,7 @@ class AuthService {
 
   Future signOut() async {
     try {
+      // logout
       return await auth.signOut();
     } catch (e) {
       print(e.toString());

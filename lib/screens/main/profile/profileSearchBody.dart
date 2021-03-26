@@ -7,27 +7,51 @@ import 'package:social_app/screens/main/posts/list.dart';
 import 'package:social_app/services/posts.dart';
 import 'package:social_app/services/user.dart';
 
-class ProfileBody extends StatefulWidget {
+class ProfileSearchBody extends StatefulWidget {
+  final String userId;
+
+  ProfileSearchBody({this.userId});
   @override
-  _ProfileBodyState createState() => _ProfileBodyState();
+  _ProfileSearchBodyState createState() => _ProfileSearchBodyState();
 }
 
-class _ProfileBodyState extends State<ProfileBody> {
+class _ProfileSearchBodyState extends State<ProfileSearchBody> {
+  UserService _userService = UserService();
+  bool isFollowing = false;
+
+  @override
+  initState() {
+    super.initState();
+    _userService.isFollowing(widget.userId).then((val) {
+      isFollowing = val;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Color bg = Colors.black;
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
-
     return Provider.of<UserModel>(context) != null
         ? Scaffold(
             backgroundColor: bg,
+            appBar: AppBar(
+              backgroundColor: bg,
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_sharp,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+            ),
             body: Column(
               children: [
                 Container(
                     decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(0)),
+                          BorderRadius.vertical(bottom: Radius.circular(44)),
                       color: bg,
                     ),
                     width: double.infinity,
@@ -38,7 +62,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                           padding: const EdgeInsets.only(top: 60.0),
                           child: ClipOval(
                             child: Image.network(
-                              Provider.of<UserModel>(context)?.profileImgUrl ??
+                              Provider.of<UserModel>(context).profileImgUrl ??
                                   '',
                               height: 90,
                               width: 90,
@@ -54,7 +78,7 @@ class _ProfileBodyState extends State<ProfileBody> {
 
                             children: [
                               Text(
-                                Provider.of<UserModel>(context).name ?? '',
+                                Provider.of<UserModel>(context)?.name ?? '',
                                 style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                     fontSize: 20,
@@ -156,37 +180,22 @@ class _ProfileBodyState extends State<ProfileBody> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
                                         MediaQuery.of(context).size.width *
-                                            0.2),
+                                            0.25),
                                 child: Row(
                                   children: [
-                                    Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 23),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.50,
-                                          child: OutlinedButton(
-                                            style: ButtonStyle(backgroundColor:
-                                                MaterialStateProperty
-                                                    .resolveWith<Color>(
-                                                        (states) {
-                                              return Color(0xffFE3B5B);
-                                            })),
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Follow",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ) ??
-                                        Container(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Icon(Icons.message_sharp,
-                                          color: Color(0xffFE3B5B)),
-                                    ),
+                                    isFollowing
+                                        ? makeButton("Unfollow", () async {
+                                            await _userService
+                                                .unfollowUser(widget.userId);
+                                            isFollowing = false;
+                                            setState(() {});
+                                          }, context)
+                                        : makeButton("Follow", () async {
+                                            await _userService
+                                                .followUser(widget.userId);
+                                            isFollowing = true;
+                                            setState(() {});
+                                          }, context),
                                   ],
                                 ),
                               ),
@@ -202,12 +211,31 @@ class _ProfileBodyState extends State<ProfileBody> {
                     )),
                 ListPosts()
               ],
-            ))
+            ),
+          )
         : Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
             backgroundColor: bg,
           );
+  }
+
+  Widget makeButton(text, function, context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 23),
+      width: MediaQuery.of(context).size.width * 0.47,
+      child: OutlinedButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+          return Color(0xffFE3B5B);
+        })),
+        onPressed: function,
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 }

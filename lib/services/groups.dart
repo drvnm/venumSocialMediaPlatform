@@ -8,7 +8,9 @@ import 'package:social_app/models/user.dart';
 
 class GroupService {
   FirebaseFirestore instance = FirebaseFirestore.instance;
+
   Future<void> addGroup(String username, String groupName) async {
+    // get the firest user
     var result = await instance
         .collection("users")
         .where("username", isEqualTo: username)
@@ -16,6 +18,8 @@ class GroupService {
 
     String id = result.docs[0].id;
     print("-----------\nId is: " + id);
+
+    // make a new chat in firestore, initial users are logged in user and selected user
     instance.collection("chats").add({
       "users": [FirebaseAuth.instance.currentUser.uid, id],
       "createdAt": Timestamp.now(),
@@ -24,6 +28,7 @@ class GroupService {
   }
 
   List<GroupModel> _getGroupModel(QuerySnapshot snapshot) {
+    // returns a GroupModel for each found document
     return snapshot.docs.map((doc) {
       var data = doc.data();
       return GroupModel(groupName: data['groupName'], id: doc.id);
@@ -31,6 +36,7 @@ class GroupService {
   }
 
   Stream<List<GroupModel>> getGroupsFromId() {
+    
     return instance
         .collection("chats")
         .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)
@@ -39,12 +45,14 @@ class GroupService {
   }
 
   Future<void> addMessage(String id, String text) async {
+    //TODO: this isnt so smart, find solution
     var user = await instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser.uid)
         .get();
     var data = user.data();
 
+    // add message to chat
     await instance.collection("chats").doc(id).collection("messages").add({
       "creator": FirebaseAuth.instance.currentUser.uid,
       "text": text,
@@ -56,6 +64,9 @@ class GroupService {
   }
 
   List<MessageModel> _getMessageModel(QuerySnapshot snapshot) {
+    // returns a message model for each document
+    // TODO: optimize?
+    
     return snapshot.docs.map((doc) {
       var data = doc.data();
       return doc != null

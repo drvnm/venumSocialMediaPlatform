@@ -2,21 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/models/post.dart';
 
+
+//TODO: fix all of this 
+
+
 class PostService {
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
   List<String> getPostsFromIds(QuerySnapshot snapshot) {
+    // returns 
     print("Getting ids");
     return snapshot.docs.map((doc) {
-      print("gggg");
       return doc.id;
     }).toList();
-    // return instance
-    //     .collection("posts")
-    //     .where("creator", whereIn: ids)
-    //     .snapshots()
-    //     .map(_postListFromSnapshot)
-    //     .toList();
+   
   }
 
    Stream<List<String>> getFeedFromFollowing() {

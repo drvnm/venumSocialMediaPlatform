@@ -29,63 +29,87 @@ class _EditState extends State<Edit> {
   Widget build(BuildContext context) {
     Color bg = Colors.black;
     Color fg = Color(0xff222222);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: bg,
-        centerTitle: true,
-        title: Text("Edit Profile",
-            style: GoogleFonts.montserrat(
-                textStyle: TextStyle(color: Colors.white))),
-        actions: [
-          TextButton(
-              onPressed: () async {
-                await _userService.updateProfile(_profileImage, username, bio);
-                Navigator.pop(context);
-              },
-              child: Text("SAVE",
-                  style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(color: Colors.white, fontSize: 15))))
-        ],
-      ),
-      body: Container(
-        color: fg,
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30)),
-                color: bg,
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: bg,
+          centerTitle: true,
+          title: Text("Edit Profile",
+              style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(color: Colors.white))),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  await _userService.updateProfile(
+                      _profileImage, username, bio);
+                  Navigator.pop(context);
+                },
+                child: Text("SAVE",
+                    style: GoogleFonts.montserrat(
+                        textStyle:
+                            TextStyle(color: Colors.white, fontSize: 15))))
+          ],
+        ),
+        body: Container(
+          color: fg,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(30)),
+                  color: bg,
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                child: TextButton(
+                  onPressed: getImage,
+                  child: _profileImage == null
+                      ? Icon(Icons.person)
+                      : ClipOval(
+                          child: Image.file(
+                            _profileImage,
+                            height: 200,
+                            width: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                ),
               ),
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              child: TextButton(
-                onPressed: getImage,
-                child: _profileImage == null
-                    ? Icon(Icons.person)
-                    : ClipOval(
-                        child: Image.file(
-                          _profileImage,
-                          height: 200,
-                          width: 200,
-                          fit: BoxFit.cover,
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    color: fg,
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18.0),
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.white),
+                          maxLength: 10,
+                          decoration: InputDecoration(
+                            labelText: "USERNAME",
+                            labelStyle: GoogleFonts.varelaRound(
+                              height: -20,
+                              textStyle: TextStyle(
+                                letterSpacing: 2,
+                                fontSize: 15,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          onChanged: (val) => setState(() {
+                            username = val;
+                            print(username);
+                          }),
                         ),
                       ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  color: fg,
-                  child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 18.0),
-                      child: TextFormField(
+                      TextFormField(
+                        maxLength: 90,
+                        maxLines: null,
                         style: TextStyle(color: Colors.white),
-                        maxLength: 10,
                         decoration: InputDecoration(
-                          labelText: "USERNAME",
+                          labelText: "BIO",
                           labelStyle: GoogleFonts.varelaRound(
                             height: -20,
                             textStyle: TextStyle(
@@ -96,33 +120,13 @@ class _EditState extends State<Edit> {
                           ),
                         ),
                         onChanged: (val) => setState(() {
-                          username = val;
-                          print(username);
+                          bio = val;
                         }),
                       ),
-                    ),
-                    TextFormField(
-                      maxLength: 90,
-                      maxLines: null,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "BIO",
-                        labelStyle: GoogleFonts.varelaRound(
-                          height: -20,
-                          textStyle: TextStyle(
-                            letterSpacing: 2,
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      onChanged: (val) => setState(() {
-                        bio = val;
-                      }),
-                    ),
-                  ])),
-            )
-          ],
+                    ])),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -29,6 +29,7 @@ class _RegisterPageTwoState extends State<RegisterPageTwo> {
       ),
       backgroundColor: bg,
       body: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
             child: Form(
@@ -147,6 +148,7 @@ class _RegisterPageTwoState extends State<RegisterPageTwo> {
                             if (username != '') {
                               print("REGISTERING!");
                               AuthService().signUp(email, password, username);
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

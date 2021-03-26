@@ -21,6 +21,7 @@ class _ChatState extends State<Chat> {
   GroupService _groupService = GroupService();
   UserService _userService = UserService();
   var _controller = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     Color bg = Colors.black;
