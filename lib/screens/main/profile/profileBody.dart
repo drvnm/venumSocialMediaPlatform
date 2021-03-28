@@ -21,8 +21,17 @@ class _ProfileBodyState extends State<ProfileBody> {
 
     return Provider.of<UserModel>(context) != null
         ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: bg,
+              actions: [
+                IconButton(
+                    icon: Icon(Icons.more_vert, color: Colors.white),
+                    onPressed: () {})
+              ],
+            ),
             backgroundColor: bg,
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
                     decoration: BoxDecoration(

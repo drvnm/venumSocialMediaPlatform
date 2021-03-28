@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
     Color bg = Colors.black;
     Color fg = Color(0xff121212);
     Color tg = Color(0xff595959);
-
+   
     return Scaffold(
       backgroundColor: bg,
       appBar: AppBar(
@@ -39,12 +39,6 @@ class Home extends StatelessWidget {
         child: Center(
           child: Text("USER FEED WILL BE HERE.",
               style: TextStyle(color: Colors.white)),
-          // future: Provider.of<Future<List<List<PostModel>>>>(context),
-          // builder: (context, snapshot) {
-          //   if (snapshot.hasData) {
-          //     print("" * 33);
-          //   }
-          // },
         ),
       ),
     );

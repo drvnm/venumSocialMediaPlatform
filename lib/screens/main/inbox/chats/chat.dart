@@ -10,8 +10,9 @@ import 'package:social_app/services/user.dart';
 class Chat extends StatefulWidget {
   final String groupName;
   final String groupId;
+  final String groupImageUrl;
 
-  Chat({this.groupName, this.groupId});
+  Chat({this.groupName, this.groupId, this.groupImageUrl});
   @override
   _ChatState createState() => _ChatState();
 }
@@ -36,6 +37,7 @@ class _ChatState extends State<Chat> {
               value: _groupService.getMessagesByGroup(widget.groupId)),
         ],
         child: ChatRoom(
+          groupImageUrl: widget.groupImageUrl,
           groupId: widget.groupId,
           groupName: widget.groupName,
         ));

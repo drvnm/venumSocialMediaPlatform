@@ -5,6 +5,7 @@ import 'package:social_app/models/post.dart';
 import 'package:social_app/models/user.dart';
 
 import 'dart:core';
+
 class ListPosts extends StatefulWidget {
   @override
   _ListPostsState createState() => _ListPostsState();
@@ -17,17 +18,16 @@ class _ListPostsState extends State<ListPosts> {
     Color fg = Color(0xff222222);
     final posts = Provider.of<List<PostModel>>(context) ?? [];
     final userInfo = Provider.of<UserModel>(context) ?? null;
-    return Expanded(
+    return posts.length > 0 ? Expanded(
       child: ListView.builder(
         itemCount: posts.length,
         itemBuilder: (context, index) {
           final post = posts[index];
           Timestamp time = posts[index].timestamp;
           int timeInMillis = time.millisecondsSinceEpoch;
-          var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis).toString().substring(0,10);
-          
-        
-        
+          var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis)
+              .toString()
+              .substring(0, 10);
 
           return Card(
             color: bg,
@@ -53,7 +53,8 @@ class _ListPostsState extends State<ListPosts> {
                         : Text(''),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(date, style: TextStyle(color: Colors.grey, fontSize: 10)),
+                      child: Text(date,
+                          style: TextStyle(color: Colors.grey, fontSize: 10)),
                     ),
                   ],
                 ),
@@ -63,13 +64,13 @@ class _ListPostsState extends State<ListPosts> {
                   bottom: 3,
                   top: 4,
                 ),
-                child: Text(post.text ?? '', style: TextStyle(color: Colors.white)),
+                child: Text(post.text ?? '',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           );
         },
       ),
-    );
+    ) : Center(heightFactor: 8,child:Text("This user has no posts yet.", style: TextStyle(color: Colors.white)));
   }
 }
-

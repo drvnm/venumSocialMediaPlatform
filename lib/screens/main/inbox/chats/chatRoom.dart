@@ -11,8 +11,8 @@ import 'package:social_app/services/user.dart';
 class ChatRoom extends StatefulWidget {
   final String groupName;
   final String groupId;
-
-  ChatRoom({this.groupName, this.groupId});
+  final String groupImageUrl;
+  ChatRoom({this.groupName, this.groupId, this.groupImageUrl});
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
@@ -35,8 +35,16 @@ class _ChatRoomState extends State<ChatRoom> {
         backgroundColor: bg,
         elevation: 1,
         shadowColor: Colors.grey,
-        title: Text(
-          widget.groupName,
+        title: Row(
+          children: [
+            ClipOval(child: Image.network(widget.groupImageUrl ?? "https://png.pngtree.com/png-clipart/20190918/ourmid/pngtree-load-the-3273350-png-image_1733730.jpg", fit: BoxFit.cover, width:40, height:40)),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                widget.groupName,
+              ),
+            ),
+          ],
         ),
         actions: [TextButton(child: Icon(Icons.person_add_sharp, color: Colors.white))],
       ), 
@@ -91,11 +99,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   return;
                 }
                 print("text was empty..");
-                // } else {
-                //   print(FirebaseAuth.instance.currentUser.uid);
-                //   print(Provider.of<UserModel>(context, listen: false)
-                //       .isVerified);
-                // }
+               
               },
             ),
           ],

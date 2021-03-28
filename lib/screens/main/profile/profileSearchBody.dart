@@ -37,6 +37,7 @@ class _ProfileSearchBodyState extends State<ProfileSearchBody> {
         ? Scaffold(
             backgroundColor: bg,
             appBar: AppBar(
+             
               backgroundColor: bg,
               leading: IconButton(
                   icon: Icon(

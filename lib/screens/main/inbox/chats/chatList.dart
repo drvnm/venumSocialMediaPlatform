@@ -31,12 +31,15 @@ class _ChatListState extends State<ChatList> {
                       builder: (context) => Chat(
                             groupName: group.groupName,
                             groupId: group.id,
+                            groupImageUrl: group.groupImageUrl,
+                            
                           )),
                 );
               },
               tileColor: fg,
               title:
                   Text(group.groupName, style: TextStyle(color: Colors.white)),
+              leading: ClipOval(child: Image.network(group.groupImageUrl ?? "https://png.pngtree.com/png-clipart/20190918/ourmid/pngtree-load-the-3273350-png-image_1733730.jpg", fit: BoxFit.cover, height:50, width:50)),
             ),
           );
         });

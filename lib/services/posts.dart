@@ -2,47 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/models/post.dart';
 
-
-//TODO: fix all of this 
-
+//TODO: fix all of this
 
 class PostService {
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
-  List<String> getPostsFromIds(QuerySnapshot snapshot) {
-    // returns 
-    print("Getting ids");
-    return snapshot.docs.map((doc) {
-      return doc.id;
-    }).toList();
-   
-  }
-
-   Stream<List<String>> getFeedFromFollowing() {
-     print("ye");
-    var x = instance
-        .collection("following")
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection("users")
-        .snapshots()
-        .map(getPostsFromIds);
-      return x;
-  }
-
   List<PostModel> _postListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       print(doc.id);
-      return PostModel(
-        id: doc.id,
-        text: doc.data()['text'] ?? '',
-        creator: doc.data()['creator'] ?? '',
-        timestamp: doc.data()['timestamp'] ?? 0,
-      );
-    }).toList();
-  }
-
-  List<PostModel> _postListFromDocs(snapshot) {
-    return snapshot.docs.map((doc) {
       return PostModel(
         id: doc.id,
         text: doc.data()['text'] ?? '',
@@ -72,5 +39,21 @@ class PostService {
         .where('creator', isEqualTo: uid)
         .snapshots()
         .map(_postListFromSnapshot);
+  }
+
+  getFeedFromFollowing() {
+    print("gets called");
+    String id = FirebaseAuth.instance.currentUser.uid;
+    instance
+        .collection("following")
+        .doc(id)
+        .collection("users")
+        .snapshots()
+        .map((docs) {
+      docs.docs.map((doc) {
+        print('ttt');
+      });
+    });
+    print("not called anymore");
   }
 }

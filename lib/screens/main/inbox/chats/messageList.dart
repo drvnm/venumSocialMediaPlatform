@@ -52,7 +52,7 @@ class _ListMessagesState extends State<ListMessages> {
 
 Widget newMessageBoxSelf(MessageModel message, context) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 7.0),
+    padding: const EdgeInsets.only(top: 13.0, right: 7.0),
     child: Row(
       children: [
         Expanded(
@@ -122,75 +122,77 @@ Widget oldMessageBoxSelf(MessageModel message, context) {
 }
 
 Widget newMessageBoxOther(message, context) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 3.0),
-    child: Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        ProfileSearch(userId: message.creator)));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0),
-            child: ClipOval(
-              child: Image.network(
-                message.profileImgUrl ??
-                    "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
-                height: 35,
-                width: 35,
-                fit: BoxFit.cover,
+  return Container(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ProfileSearch(userId: message.creator)));
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              child: ClipOval(
+                child: Image.network(
+                  message.profileImgUrl ??
+                      "https://inlandfutures.org/wp-content/uploads/2019/12/thumbpreview-grey-avatar-designer.jpg",
+                  height: 35,
+                  width: 35,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(message.name ?? "NULL",
-                        style: TextStyle(color: Colors.white)),
-                    message.isVerified
-                        ? Icon(Icons.verified_sharp,
-                            color: Colors.blue, size: 15)
-                        : Container(),
-                  ],
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(0),
-                    ),
-                    child: Bubble(
-                      margin: BubbleEdges.only(top: 3),
-                      padding: BubbleEdges.all(9),
-                      color: fg,
-                      alignment: Alignment.topLeft,
-                      stick: true,
-                      nip: BubbleNip.no,
-                      child: Text(
-                        message.text ?? "test",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(message.name ?? "NULL",
+                          style: TextStyle(color: Colors.white)),
+                      message.isVerified
+                          ? Icon(Icons.verified_sharp,
+                              color: Colors.blue, size: 15)
+                          : Container(),
+                    ],
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(0),
+                      ),
+                      child: Bubble(
+                        margin: BubbleEdges.only(top: 3),
+                        padding: BubbleEdges.all(9),
+                        color: fg,
+                        alignment: Alignment.topLeft,
+                        stick: true,
+                        nip: BubbleNip.no,
+                        child: Text(
+                          message.text ?? "test",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
@@ -198,15 +200,19 @@ Widget newMessageBoxOther(message, context) {
 Widget oldMessageBoxOther(message, context) {
   return Padding(
     padding: const EdgeInsets.only(left: 50.0),
-    child: Bubble(
-      margin: BubbleEdges.only(top: 0),
-      padding: BubbleEdges.all(9.0),
-      color: fg,
-      alignment: Alignment.topLeft,
-      stick: true,
-      nip: BubbleNip.no,
-      child: Text(message.text ?? "test",
-          style: TextStyle(color: Colors.white, fontSize: 15)),
+    child: Container(
+      constraints: BoxConstraints(maxWidth:300),
+      child: Bubble(
+        margin: BubbleEdges.only(top: 0),
+        padding: BubbleEdges.all(9.0),
+        color: fg,
+        
+        alignment: Alignment.topLeft,
+        stick: true,
+        nip: BubbleNip.no,
+        child: Text(message.text ?? "test",
+            style: TextStyle(color: Colors.white, fontSize: 15)),
+      ),
     ),
   );
 }
